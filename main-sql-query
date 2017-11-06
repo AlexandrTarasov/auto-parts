@@ -1,0 +1,7 @@
+if ($model=='last')
+{
+  $query = $db->query("SELECT *  FROM `ap_poliurit` ORDER BY `id` DESC LIMIT 40");
+}
+else{
+  $query = $db->query("SELECT *  FROM `ap_poliurit` WHERE `CarModel` LIKE '".$model."' ORDER BY `image` DESC");
+} 
