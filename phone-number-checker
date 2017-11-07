@@ -1,0 +1,14 @@
+<?php
+$phone = $_POST['tel'];
+$phlen=strlen($phone);
+
+if($phlen>16 || $phlen<3) {
+  echo("Phone number must have from 4 to 16 numbers <br/>"); $error=1;
+}
+
+
+if(!preg_match("|^[\d -]+$|", $phone)){
+  echo("Только цифры, тире и пробел в номере телефона<br/>"); $error=1;
+}
+
+?>
