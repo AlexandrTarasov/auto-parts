@@ -1,5 +1,7 @@
 <?php
 $phone = $_POST['tel'];
+$mail = $_POST['e-mail'];
+
 $phlen=strlen($phone);
 
 if($phlen>16 || $phlen<3) {
