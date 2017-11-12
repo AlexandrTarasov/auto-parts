@@ -1,0 +1,103 @@
+<?php
+if(isset($_GET['poliurit'])|| $model=='') {
+
+	//if query consists from more then 2 strings
+	if($model=='MERCEDES'){$mark = "MERCEDES-BENZ";}
+	elseif($model=='ROVER'){$mark = "LAND ROVER";}
+	else{$mark = $model;}
+	
+	//if(isset($_POST['poliurit'])){$model=$_POST['poliurit'];}
+	//"SELECT `model`, MIN(`id`) FROM `auto_cat` WHERE `mark` LIKE 'HYUNDAI' GROUP BY `model` HAVING count(*)>1"
+
+
+  if ($model=='last' || $model=='') {
+   	$query = $db->query("SELECT *  FROM `ap_poliurit` ORDER BY `id` DESC LIMIT 40");
+  }
+  else{
+  	$query = $db->query("SELECT *  FROM `ap_poliurit` WHERE `CarModel` LIKE '".$mark."' ORDER BY `image` DESC");
+  }
+
+  if($model!='' && $model!='last'){
+
+  	$mark_auto = strtoupper($mark);
+  	$query_model = $db->query("SELECT `model`, MIN(`id`) FROM `auto_cat` WHERE `mark` LIKE '".$mark_auto."' GROUP BY `model` ASC HAVING count(*)>=1");
+
+  	//echo"<button class=\"btn btn-default molelstyle\" type=\"submit\">".$value_model['model']."</button>";
+  	
+  	foreach ($query_model->rows as $value_model){
+  		
+  		
+  		$models_menu = explode(' ', $value_model['model']);
+  		//var_dump($models_menu);
+  		if ($mark_auto == 'BMW' && isset($models_menu[1])) {
+
+  			$level = $models_menu[1];
+  		}	
+
+  		if ($models_menu[0] != $temp_model_value) {
+  			echo"<button class=\"btn btn-default molelstyle\" type=\"submit\" title=".$value_model['MIN(`id`)'].">".$models_menu[0]." ".$level." </button>";
+  			 /*echo "$models_menu[1]";*/
+  			$temp_model_value = $models_menu[0];
+  		}
+  		
+  		
+
+  	}
+
+  	/*echo'
+			<div style="padding-bottom:15px;">
+			<button class="btn btn-default molelstyle" type="submit">Espero</button>
+			<button class="btn btn-default molelstyle" type="submit">Evanda</button>
+			<button class="btn btn-default molelstyle" type="submit">Kalos</button>
+			<button class="btn btn-default molelstyle" type="submit">Korando</button>
+			<button class="btn btn-default molelstyle" type="submit">Lacetti</button>
+			<button class="btn btn-default molelstyle" type="submit">Lanos</button>
+			<button class="btn btn-default molelstyle" type="submit">Leganza</button>
+			<button class="btn btn-default molelstyle" type="submit">Matiz</button>
+			<button class="btn btn-default molelstyle" type="submit">Musso</button>
+			<button class="btn btn-default molelstyle" type="submit">Nexia</button>
+			<button class="btn btn-default molelstyle" type="submit">Nubira</button>
+			<button class="btn btn-default molelstyle" type="submit">Tacuma</button>
+			<button class="btn btn-default molelstyle" type="submit">Tico</button>
+			</div>
+		';*/
+
+  }
+
+
+
+
+	echo'
+	<div class="row well-sm" style="background:#eceaea; margin-bottom: 3px; ">
+	<div class="col-md-3 well-sm" style="font-size: 17px;">Наименование</div>
+	<div class="col-md-2 well-sm" style="font-size: 17px;">Фото</div>
+	<div class="col-md-4 well-sm" style="font-size: 17px;">Модели</div>
+	<div class="col-md-2 well-sm" style="font-size: 17px;">Код</div>
+	<div class="col-md-1 well-sm" style="font-size: 17px;">Заказ</div>
+	</div>';
+
+
+	foreach ($query->rows as $value_name)
+	{	if($value_name['url']!=''){$url_is="<a href=".$value_name ['url'].">".$value_name ['description']."</a>";}
+		else{$url_is=$value_name['description'];}
+		$tump='';
+		if(isset($value_name['image'])){
+  		$tumb= substr($value_name['image'], 18);
+			$tumb= substr($tumb, 0, -4);
+			$tumb= '<img style="width: 170px;" src=http://autoritetparts.com.ua/image/cache/data/img_products/'.$tumb.'-160x160.jpg>';
+    }
+    else{
+    	$tumb= '<img style="width: 70px;" src="http://autoritetparts.com.ua/image/no_image.jpg">';
+    }
+		echo"<div class=\"row well-sm\" style=\"background:#eceaea;margin-bottom: 3px; \">";
+		echo"<div class=\"col-md-3 well-sm btn-primary\" style=\"font-size: 17px;\">".$value_name ['name']."</div> ";
+		echo"<div class=\"col-md-2\">".$tumb."</div> ";
+		echo"<div class=\"col-md-4\">".$url_is." </div> ";
+		echo"<div class=\"col-md-2\" id=\"crosses".$value_name ['id']."\" >".$value_name ['cross_cod']."</div>";
+		echo"<div class=\"col-md-1\"><button type=\"button\" class=\"btn btn-danger\" data-toggle=\"modal\"
+			data-text=\"".$value_name ['id']." ".$value_name ['name']." на ".$model."\" data-target=\"#myModal\" onClick=\"Goid(".$value_name ['id'].")\" >уточнить<br>ЦЕНУ</button></div>";
+		echo"</div>\r\n";
+		$tump='';
+	}
+}else {echo("nothing");}
+?>
