@@ -1,0 +1,49 @@
+<?php
+
+$marker1=0;
+if(isset($_POST['act'])){$marker1=$_POST['act'];}
+
+if($marker1=='1'){
+
+  $file = $_FILES['bazabords']['tmp_name'];
+
+setlocale(LC_ALL, 'ru_RU.UTF-8"'); //Установили локаль, чтоб fgetcsv читал кириллицу
+ if ( ($handle_o = fopen($file, "r") ) !== FALSE ) {
+  // читаем первую строку и разбираем названия полей
+  $columns_o = fgetcsv($handle_o, 1000, ";");
+
+   foreach( $columns_o as $v ) {
+    $insertColumns[]=" ".addslashes(trim($v))." ";
+    //print_r($insertColumns);echo"<br>";
+   }
+   $columns=implode(',',$insertColumns);
+
+ //mysql_query("TRUNCATE TABLE `usp_board`") or die('SQL ERROR:'.mysql_error());//очищаем таблицу
+   while ( ($data_o = fgetcsv($handle_o, 1000, ";")) !== FALSE){
+		$insertValues = array();
+		foreach( $data_o as $v ) {
+		$insertValues[]=addslashes(trim($v));
+     }
+
+    $quer1= mysql_query("SELECT product_id FROM product WHERE `model`='".$insertValues[0]."' ");
+    $arr_quer=mysql_fetch_array($quer1);
+
+	echo $arr_quer['product_id']; echo" - "; echo $insertValues[0]; echo" - "; echo $insertValues[1]; echo"<br>";
+
+    $sql = "UPDATE `product_description` SET `name` = CONCAT( name, ' ".$insertValues[1]."') WHERE `product_id` = '".$arr_quer['product_id']."'";
+	//$values=implode(',',$insertValues);
+	//print_r($values);echo"<br>";
+
+    //$sql = "UPDATE `product` SET `image` ='data/img_products/".$insertValues[1]."'  WHERE `product_id`='".$insertValues[0]."'";
+    //echo $sql; echo"<br>";
+	//mysql_query($sql) or die('SQL ERROR:'.mysql_error());
+   }
+   echo "<br>база обновилась";
+   //header('Refresh: 3; URL=admin/update-price.php');
+  }
+  fclose($handle_o);
+ }
+
+$end_script = microtime(TRUE);
+echo $time1=$end_script-$start; echo"---1---<br>";
+?>
