@@ -1,0 +1,2 @@
+INSERT INTO `auto_cat` (`id`, `mark`, `model`, `engine`, `year`) VALUES 
+(NULL, 'MERCEDES-BENZ', 'Transporter', '1.5-1.6', '1983-2013');
