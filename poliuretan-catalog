@@ -1,3 +1,36 @@
+<option value="490">1300</option> 1.3  - 78 - 83
+<option value="490">1310</option> 1.3  - 78 - 83
+1.3 -1.4  83-94
+
+
+<option value="491">1410</option>
+1.4  85-88
+
+<option value="492">Denem</option>
+1.3  82-95
+<option value="493">Dokker</option>
+1.2 - 1.6 12-17
+
+
+<option value="494">Duster</option>
+1.2 turbo 13 - 17
+1.4  84-93
+1.6  10-17
+
+
+<option value="495">Lodgy</option>
+1.2-1.6  12-17
+
+<option value="496">Logan</option>
+0.9 - 1.6  04-17
+<option value="497">Logan MCV</option>
+1.2 - 1.6  07-12
+
+<option value="498">Nova</option>
+1.4-1.6  96 - 01
+
+<option value="499">Sandero</option>
+0.9 - 1.6  08 - 17
 <?php
 if(isset($_GET['poliurit'])|| $model=='') {
 
