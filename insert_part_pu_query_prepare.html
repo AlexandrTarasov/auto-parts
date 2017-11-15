@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+
+<link href="http://autoritetparts.com.ua/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
+
+<script type="text/javascript">
+
+	function ckickl() {
+			var msgName = $('#name-inp').val();
+			var msgDesc = $('#desc-inp').val();
+			var msgModel = $('#model-inp').val();
+			var msgArtic = $('#artic-inp').val();
+
+			$.trim(msgName);
+			$('#name').text(msgName);
+
+			$.trim(msgDesc);
+			$('#desc').text(msgDesc);
+
+			$.trim(msgModel);
+			$('#model').text(msgModel);
+
+			$.trim(msgArtic);
+			$('#artic').text(msgArtic);
+			$('#artica').text(msgArtic);
+			$('#articb').text(msgArtic);
+
+
+
+			msgArtic = msgArtic.replace(/\s/g,'-');
+			msgimg = msgModel+'-'+msgArtic;
+			$('#img').text(msgimg);
+
+			$('#url').text(msgimg);
+
+
+			alert(msgName);	
+
+	}
+</script>
+
+</head>
+<body>
+	<div style="margin:30px;">
+	<input type="text" name="" id="name-inp" value=""> name<br>
+	<input type="text" name="" id="desc-inp" value=""> desc<br>
+	<input type="text" name="" id="model-inp" value=""> marka<br>
+	<input type="text" name="" id="artic-inp" value=""> artic<br>
+	<button onclick="ckickl();" > GEN </button>
+	<br><br><br>
+	
+	INSERT INTO `ap_poliurit` (`id`, `inner_id`, `name`, `meta_description`, `description`, `analogue`, `image`, `parent_id`, `price_uah`, `cat`, `deep_cat`, `data_add`, `data_change`, `url`, `cross_cod`, `CarModel`, `property`, `articul`, `brend`)VALUES (NULL, '', 
+	'<span id='name'></span>',NULL,
+	'<span id='desc'></span>', /*куда подходит, описание*/<br>
+	
+	 '<span id='artic'></span>',     /*analogue*/<br>
+	
+	 'data/img_products/pu-<span id='img'></span>.jpg',    /*img*/<br>
+	
+	 NULL, NULL, NULL, NULL, NULL, NULL, <br>
+	
+	 'pu-<span id='url'></span>.html', 		/*url*/<br>
+	 '<span id='artica'></span>', 		/*cross_cod*/<br>
+	 '<span id='model'></span>', 		/*model*/<br>
+	 '2', <br>
+	 '<span id='articb'></span>',		/*articul*/	<br>
+	 '');
+	</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	
+</body>
+</html>
