@@ -15,14 +15,29 @@
 		});
 		$(".btn-danger").click(function(){
 		  model_id_get = $(".get-models-id:first").val();
-		  if(model_id_get==''){alert("nothing added")}
-		  //let chage_id = $(this).attr("id");
-			alert(model_id_get);
-			id_of_models = '';
+		  if(model_id_get==''){confirm("nothing added"); }
+		  else{
+		  	var msg = model_id_get;			
+				$.ajax({
+				type: 'POST',
+				url: 'admin/get_orders.php?carmodels=1',
+				data: msg,
+				success: function(data) {
+					alert(data+'added');
+					//$('#results'+poliu).html(data);
+					//$('#results'+poliu).prop('disabled', false);
+					
+				},
+				error:  function(xhr, str){
+					alert('Возникла ошибка: ' + xhr.responseCode);
+				}
+			});
+			  //let chage_id = $(this).attr("id");
+				alert(model_id_get);
+				id_of_models = '';
 
-			$(".listmoduls:first").remove();
+				$(".listmoduls:first").remove();
+			}
 		});
 
 	});
-	
-</script>
