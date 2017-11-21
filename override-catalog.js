@@ -1,6 +1,7 @@
 <script type="text/javascript">
 	let id_of_models = '';
 	let model_id_get = '';
+	let msg = new Array();
 	
 	$(document).ready(function(){
 		$(".molelstyle").click(function(){
@@ -15,9 +16,14 @@
 		});
 		$(".btn-danger").click(function(){
 		  model_id_get = $(".get-models-id:first").val();
+		  prod_id_get = $(".get-prod-id:first").val();
+			
+			msg = "models_id="+model_id_get+"&prod_id="+prod_id_get;	
+
+		  //msg = model_id_get+":"+prod_id_get;	
 		  if(model_id_get==''){alert("nothing added"); }
 		  else{
-		  	var msg = model_id_get;			
+		  			
 					$.ajax({
 						type: 'POST',
 						url: 'ajax/get_orders.php?carmodels=1',
