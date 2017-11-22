@@ -1,2 +1,6 @@
 INSERT INTO `auto_cat` (`id`, `mark`, `model`, `engine`, `year`) VALUES 
 (NULL, 'MERCEDES-BENZ', 'Transporter', '1.5-1.6', '1983-2013');
+
+
+//Get poducts if id of prod not in another table
+"SELECT *  FROM `ap_poliurit` WHERE `CarModel` LIKE '".$mark."' AND `id` NOT IN(SELECT `pord_id` FROM `ap_prod_to_cat`) ORDER BY `image` DESC"
