@@ -4,8 +4,8 @@
 	let msg = new Array();
 	
 	$(document).ready(function(){
-		$(".molelstyle").click(function(){
-
+		$(".first_models_list").delegate("button", "click", function(){
+			
 			let model_id = $(this).val();
 			id_of_models = model_id +" "+ id_of_models;
 			$(".modelsin:first").append("<div class='carmodel'>"+model_id+"</div>");
@@ -46,5 +46,24 @@
 		});
 
 	});
+
+
+function get_models_list(){
+	
+	let new_makr='';
+	new_mark = $(".add_marks").val();
+
+	//console.log(new_mark);
+
+	$.ajax({
+	  type: 'POST',
+	  url: 'ajax/get_models_list.php?action=1',
+	  data: 'automarka='+new_mark,
+	  	success: function(data){
+    		$('.first_models_list').html(data);
+  		}
+	});
+	$("#one_list").hide();
+}
 	
 </script>
