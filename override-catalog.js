@@ -1,14 +1,16 @@
 <script type="text/javascript">
 	let id_of_models = '';
 	let model_id_get = '';
+	let model_name = '';
 	let msg = new Array();
 	
 	$(document).ready(function(){
 		$(".first_models_list").delegate("button", "click", function(){
 			
 			let model_id = $(this).val();
+			model_name = $(this).text();
 			id_of_models = model_id +" "+ id_of_models;
-			$(".modelsin:first").append("<div class='carmodel'>"+model_id+"</div>");
+			$(".modelsin:first").append("<div class='carmodel'>"+model_id+"<br><span style='font-size:8px;'>"+model_name+"</span></div>");
 			$(".get-models-id:first").val(id_of_models);
 			//$(".carmodel").append("<input class=\"get-data\" type=\"hidden\" value=\""+id_of_models+"\">");
 			//alert("-"+id_of_models);
