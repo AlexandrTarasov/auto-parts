@@ -1,0 +1,32 @@
+	$models_menu = array();
+  $model = '';
+  $mark = '';
+  $temp_model_value = '';
+  $level = '';
+  $model = $_POST['automarka'];
+  
+
+	//if query consists from more then 2 strings
+	if($model=='MERCEDES'){$mark = "MERCEDES-BENZ";}
+	elseif($model=='ROVER'){$mark = "LAND ROVER";}
+	else{$mark = $model;}
+	
+
+  	$mark_auto = strtoupper($mark);
+  	$query_model = $db->query("SELECT `model`, MIN(`id`) FROM `auto_cat` WHERE `mark` LIKE '".$mark_auto."' GROUP BY `model` ASC HAVING count(*)>=1"); ///get unique model with minimum id number
+
+  	
+  	foreach ($query_model->rows as $value_model){
+  	
+  		$models_menu = explode(' ', $value_model['model']);
+  	
+  		if ($mark_auto == 'BMW' && isset($models_menu[1])) {
+
+  			$level = $models_menu[1];
+  		}	
+
+  		if ($models_menu[0] != $temp_model_value) {
+  			echo"<button class=\"btn btn-default molelstyle\" type=\"submit\" value=".$value_model['MIN(`id`)']." title=".$value_model['MIN(`id`)'].">".$models_menu[0]." ".$level." </button>";
+  			 /*echo "$models_menu[1]";*/
+  			$temp_model_value = $models_menu[0];
+  		}		
