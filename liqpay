@@ -137,10 +137,9 @@ class LiqPay
     private function cnb_params($params)
     {
         $params['public_key'] = $this->_public_key;
-
-    $params['action']='pay';
-    $params['version']='3';
-		$params['currency'] ='UAH';
+    	$params['action']='pay';
+    	$params['version']='3';
+    	$params['currency'] ='UAH';
 
         if (!isset($params['version'])) {
             throw new InvalidArgumentException('version is null');
