@@ -1,32 +1,88 @@
-  $models_menu = array();
-  $model = '';
-  $mark = '';
-  $temp_model_value = '';
-  $level = '';
-  $model = $_POST['automarka'];
-  
+<style>
+	.row div {
+		border-right: 1px solid #f6f6f6;
+	}
+	.my {
+    margin: 5px;
+    width: 125px;
+    padding:0;
+	}
+	.molelstyle{background: #b4fae5; margin: 3px;}
+	.modelsin{background: #dcead5;
+    width: 100%;
+    height: 50px;
+    border: 1px solid silver;
+  }
+  .carmodel{/* height:30px; */ background:#f9f1d5; margin:3px; border: 1px solid silver; float:left; display: inline-block; vertical-align: middle;}
+</style>
+<script type="text/javascript">
+	let id_of_models = '';
+	let model_id_get = '';
+	let model_name = '';
+	let msg = new Array();
 
-	//if query consists from more then 2 strings
-	if($model=='MERCEDES'){$mark = "MERCEDES-BENZ";}
-	elseif($model=='ROVER'){$mark = "LAND ROVER";}
-	else{$mark = $model;}
-	
+	$(document).ready(function(){
+		$(".first_models_list").delegate("button", "click", function(){
 
-  	$mark_auto = strtoupper($mark);
-  	$query_model = $db->query("SELECT `model`, MIN(`id`) FROM `auto_cat` WHERE `mark` LIKE '".$mark_auto."' GROUP BY `model` ASC HAVING count(*)>=1"); ///get unique model with minimum id number
+			let model_id = $(this).val();
+			model_name = $(this).text();
+			id_of_models = model_id +" "+ id_of_models;
+			$(".modelsin:first").append("<div class='carmodel'>"+model_id+"<br><span style='font-size:8px;'>"+model_name+"</span></div>");
+			$(".get-models-id:first").val(id_of_models);
+			//$(".carmodel").append("<input class=\"get-data\" type=\"hidden\" value=\""+id_of_models+"\">");
+			//alert("-"+id_of_models);
+			//$(this).hide();
+		});
+		$(".btn-danger").click(function(){
+		  model_id_get = $(".get-models-id:first").val();
+		  prod_id_get = $(".get-prod-id:first").val();
 
-  	
-  	foreach ($query_model->rows as $value_model){
-  	
-  		$models_menu = explode(' ', $value_model['model']);
-  	
-  		if ($mark_auto == 'BMW' && isset($models_menu[1])) {
+			msg = "models_id="+model_id_get+"&prod_id="+prod_id_get;
 
-  			$level = $models_menu[1];
-  		}	
+		  //msg = model_id_get+":"+prod_id_get;
+		  if(model_id_get==''){alert("nothing added"); }
+		  else{
 
-  		if ($models_menu[0] != $temp_model_value) {
-  			echo"<button class=\"btn btn-default molelstyle\" type=\"submit\" value=".$value_model['MIN(`id`)']." title=".$value_model['MIN(`id`)'].">".$models_menu[0]." ".$level." </button>";
-  			 /*echo "$models_menu[1]";*/
-  			$temp_model_value = $models_menu[0];
-  		}		
+					$.ajax({
+						type: 'POST',
+						url: 'ajax/get_orders.php?carmodels=1',
+						data: msg,
+						success: function(data) {
+							alert(data);
+							//$('#results'+poliu).html(data);
+							//$('#results'+poliu).prop('disabled', false);
+
+						},
+						error:  function(xhr, str){
+							alert('Возникла ошибка: ' + xhr.responseCode);
+						}
+					});
+			  //let chage_id = $(this).attr("id");
+				id_of_models = '';
+
+				$(".listmoduls:first").remove();
+			}
+		});
+
+	});
+
+
+function get_models_list(){
+
+	let new_makr='';
+	new_mark = $(".add_marks").val();
+
+	//console.log(new_mark);
+
+	$.ajax({
+	  type: 'POST',
+	  url: 'ajax/get_models_list.php?action=1',
+	  data: 'automarka='+new_mark,
+	  	success: function(data){
+    		$('.first_models_list').html(data);
+  		}
+	});
+	$("#one_list").hide();
+}
+
+</script>
