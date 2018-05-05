@@ -101,3 +101,63 @@ if(isset($_GET['poliurit'])|| $model=='') {
 	}
 }else {echo("nothing");}
 ?>
+
+<script type="text/javascript" >
+// POINTER MUVING
+		let pointer = document.getElementById('pointer1');
+		let node = document.getElementById('node1');
+		
+		pointer.onmousedown = function (e){ 
+			
+			
+			let modelType = pointer.getAttribute("data-model-type");
+			
+			
+			
+			pointer.style.position = 'absolute';
+			moveAt(e);
+			document.body.appendChild(pointer);
+			pointer.style.zIndex = 1000;
+			
+			  
+			function moveAt(e) {
+				pointer.style.left =  e.pageX - pointer.offsetWidth / 2 + 'px';
+				pointer.style.top =  e.pageY - pointer.offsetHeight / 2 + 'px';
+				
+				//console.log(pointer.style.left);
+			};
+
+			  // 3, перемещать по экрану
+			document.onmousemove = function(e) {
+				moveAt(e);
+			};
+			
+			
+			pointer.onmouseup = function(e) {  // 4. отследить окончание переноса
+				document.onmousemove = null;
+				pointer.onmouseup = null;
+				
+				var nodeY = node.offsetTop; 
+				var nodeX = node.offsetLeft;
+				let fromleft = e.pageX - nodeX - 27;
+				let fromtop = e.pageY - nodeY - 12;
+				//console.log('x=[' + (fromleft) + '] y=[' + fromtop + ']');
+				$.ajax({ // size  to server 
+						type: "POST",
+						url: "ajax/chagne_pointer_css.php",
+						data: {"fromleft": fromleft, "fromtop": fromtop},
+						cache: false,
+						success: function(response){
+							alert(response);
+							//$("#resSearch").html(response);
+						}
+					});
+			};
+			pointer.ondragstart = function() {
+				return false;
+			};
+			//console.log(e.pageX - pointer.offsetWidth);
+			
+		}// END POINTER MUVING
+		
+</script>
