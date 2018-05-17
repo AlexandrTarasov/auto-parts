@@ -103,61 +103,70 @@ if(isset($_GET['poliurit'])|| $model=='') {
 ?>
 
 <script type="text/javascript" >
-// POINTER MUVING
-		let pointer = document.getElementById('pointer1');
-		let node = document.getElementById('node1');
+		// POINTER MUVING	
+		//let classname = document.getElementsByClassName('part-pointer');
+		let classname = document.getElementsByClassName('suspention-block');
 		
-		pointer.onmousedown = function (e){ 
-			
-			
-			let modelType = pointer.getAttribute("data-model-type");
-			
-			
-			
-			pointer.style.position = 'absolute';
-			moveAt(e);
-			document.body.appendChild(pointer);
-			pointer.style.zIndex = 1000;
-			
-			  
-			function moveAt(e) {
-				pointer.style.left =  e.pageX - pointer.offsetWidth / 2 + 'px';
-				pointer.style.top =  e.pageY - pointer.offsetHeight / 2 + 'px';
-				
-				//console.log(pointer.style.left);
-			};
+		for (let i = 0; i < classname.length; i++) {
+			classname[i].addEventListener('mousedown', function(e){  //});
 
-			  // 3, перемещать по экрану
-			document.onmousemove = function(e) {
-				moveAt(e);
-			};
-			
-			
-			pointer.onmouseup = function(e) {  // 4. отследить окончание переноса
-				document.onmousemove = null;
-				pointer.onmouseup = null;
+				//let pointer = document.getElementById(classname[i].childNodes[1].id);
+				let pointer = e.target;
 				
-				var nodeY = node.offsetTop; 
-				var nodeX = node.offsetLeft;
-				let fromleft = e.pageX - nodeX - 27;
-				let fromtop = e.pageY - nodeY - 12;
-				//console.log('x=[' + (fromleft) + '] y=[' + fromtop + ']');
-				$.ajax({ // size  to server 
-						type: "POST",
-						url: "ajax/chagne_pointer_css.php",
-						data: {"fromleft": fromleft, "fromtop": fromtop},
-						cache: false,
-						success: function(response){
-							alert(response);
-							//$("#resSearch").html(response);
-						}
-					});
-			};
-			pointer.ondragstart = function() {
-				return false;
-			};
-			//console.log(e.pageX - pointer.offsetWidth);
-			
+				let node = document.getElementById('node'+i);
+				//let allClassNames = pointer.className;
+				let allClassNames = e.target.className;
+				let pClassN = allClassNames.split(" ");
+				
+				console.log(pointer);
+				if(pClassN[0] != 'part-pointer')return false;
+			 
+				
+				pointer.style.position = 'absolute';
+				pointer.style.margin = '0';
+				moveAt(e);
+				//document.body.appendChild(pointer);
+				
+				var firstelem = document.getElementById("firstelem"); 
+				firstelem.insertBefore(pointer, firstelem.childNodes[i]); //add child in a new place in a particular order
+
+				pointer.style.zIndex = 1000;
+				
+				function moveAt(e) {
+					pointer.style.left =  e.pageX - pointer.offsetWidth / 2 + 'px';
+					pointer.style.top =  e.pageY - pointer.offsetHeight / 2 + 'px';
+				};
+
+				  // 3, перемещать по экрану
+				document.onmousemove = function(e) {
+					moveAt(e);
+				};
+				
+				
+				pointer.onmouseup = function(e) {  // 4. отследить окончание переноса
+					document.onmousemove = null;
+					pointer.onmouseup = null;
+					
+					var nodeY = node.offsetTop; 
+					var nodeX = node.offsetLeft;
+					let fromleft = e.pageX - nodeX - 27;
+					let fromtop = e.pageY - nodeY - 12;
+					console.log('x=[' + (fromleft) + '] y=[' + fromtop + ']');
+					$.ajax({ // size  to server 
+							type: "POST",
+							url: "ajax/chagne_pointer_css.php",
+							data: {"fromleft": fromleft, "fromtop": fromtop, "pClassName": pClassN[1]},
+							cache: false,
+							success: function(response){
+								alert(response);
+								//$("#resSearch").html(response);
+							}
+						});
+				};
+				pointer.ondragstart = function() {
+					return false;
+				};
+				//console.log(e.pageX - pointer.offsetWidth);
+			});
 		}// END POINTER MUVING
-		
 </script>
